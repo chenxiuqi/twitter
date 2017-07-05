@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Prephirences
+//import Prephirences
 
 class LoginViewController: UIViewController {
     
