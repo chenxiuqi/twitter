@@ -10,12 +10,12 @@ import Foundation
 
 class User {
     
-//    static var current: User?
     var name: String?
     var screenName: String?
     var dictionary: [String: Any]?
     private static var _current: User?
-    
+    var profileImageURL: URL? // Contains URL for profile picture
+
     static var current: User? {
         get {
             if _current == nil {
@@ -44,6 +44,10 @@ class User {
         self.dictionary = dictionary
         name = dictionary["name"] as! String
         screenName = dictionary["screen_name"] as! String
+    
+        // casting the profile image as URL
+        let profileImageURLString = dictionary["profile_image_url_https"] as? String ?? ""
+        profileImageURL = URL(string: profileImageURLString)
     }
     
     
