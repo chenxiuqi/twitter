@@ -7,16 +7,26 @@
 //
 
 import UIKit
+import AlamofireImage
 
 class TweetCell: UITableViewCell {
     
     @IBOutlet weak var tweetTextLabel: UILabel!
+    @IBOutlet weak var userImage: UIImageView!
+    @IBOutlet weak var screenNameLabel: UILabel!
+    @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var timeStampLabel: UILabel!
     
     var tweet: Tweet! {
         didSet {
             tweetTextLabel.text = tweet.text
+            userNameLabel.text = tweet.user.screenName
+            screenNameLabel.text = tweet.user.name
+            timeStampLabel.text = tweet.createdAtString
+            userImage.af_setImage(withURL: tweet.profileImageURL!)
         }
     }
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

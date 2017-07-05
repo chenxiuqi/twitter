@@ -24,6 +24,7 @@ class APIManager: SessionManager {
     
     static let callbackURLString = "alamoTwitter://"
     
+    
     // MARK: Twitter API methods
     func login(success: @escaping () -> (), failure: @escaping (Error?) -> ()) {
         
@@ -41,6 +42,7 @@ class APIManager: SessionManager {
                     print("Welcome \(user.name)")
                     
                     // MARK: TODO: set User.current, so that it's persisted
+                    User.current = user
                     
                     success()
                 }
@@ -51,10 +53,13 @@ class APIManager: SessionManager {
     }
     
     func logout() {
-        clearCredentials()
+        //Clear current user by setting it to nil
+        User.current = nil
         
-        // TODO: Clear current user by setting it to nil
-
+        // Deauthorize OAuth tokens
+        clearCredentials()
+    
+        // Post logout notification
         NotificationCenter.default.post(name: NSNotification.Name("didLogout"), object: nil)
     }
     
@@ -86,7 +91,6 @@ class APIManager: SessionManager {
             let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
                 Tweet(dictionary: dictionary)
             })
-            
             completion(tweets, nil)
             return
         }
@@ -114,6 +118,7 @@ class APIManager: SessionManager {
                     Tweet(dictionary: dictionary)
                 })
                 completion(tweets, nil)
+                
         }
     }
     
