@@ -14,7 +14,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     var refreshControl: UIRefreshControl!
     
     @IBOutlet weak var tableView: UITableView!
-
+    
     @IBOutlet weak var favoriteCount: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,11 +60,6 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-//    func did(post: Tweet) {
-//        self.tweets.insert(post, at: 0)
-//        tableView.reloadData()
-//        
-//    }
     
     // pull-to-refresh
     func refreshControlAction(_ refreshControl: UIRefreshControl) {
@@ -92,7 +87,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     
     @IBAction func didTapLogout(_ sender: Any) {
         APIManager.shared.logout()
@@ -100,18 +95,24 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     
     
     
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-//     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//     // Get the new view controller using segue.destinationViewController.
-//     // Pass the selected object to the new view controller.
-//       let composeViewController = segue.destination as! ComposeViewController
-//        composeViewController.delegate = self
-//    }
-//
-//     }
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "DetailViewController" {
+            let cell = sender as! UITableViewCell
+            if let indexPath = tableView.indexPath(for: cell) {
+                
+                //            let destinationNavigationController = segue.destination as! UINavigationController
+                //            let detailViewController = destinationNavigationController.topViewController as! DetailViewController
+                let detailViewController = segue.destination as! DetailViewController
+                let tweet = tweets[indexPath.row]
+                detailViewController.tweet = tweet
+            }
+            
+        }
+    }
 }
 
-    
-    
+
+

@@ -122,6 +122,48 @@ class APIManager: SessionManager {
         }
     }
     
+    // Current User's Tweets
+    func getUserTimeLine(completion: @escaping ([Tweet]?, Error?) -> ()) {
+        
+        // This uses tweets from disk to avoid hitting rate limit. Comment out if you want fresh
+        // tweets,
+        //        if let data = UserDefaults.standard.object(forKey: "hometimeline_tweets") as? Data {
+        //            let tweetDictionaries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[String: Any]]
+        //            let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
+        //                Tweet(dictionary: dictionary)
+        //            })
+        //            completion(tweets, nil)
+        //            return
+        //        }
+        
+        
+        request(URL(string: "https://api.twitter.com/1.1/statuses/user_timeline.json")!, method: .get)
+            .validate()
+            .responseJSON { (response) in
+                guard response.result.isSuccess else {
+                    completion(nil, response.result.error)
+                    return
+                }
+                guard let tweetDictionaries = response.result.value as? [[String: Any]] else {
+                    print("Failed to parse tweets")
+                    let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : "Failed to parse tweets"])
+                    completion(nil, error)
+                    return
+                }
+                
+                let data = NSKeyedArchiver.archivedData(withRootObject: tweetDictionaries)
+                UserDefaults.standard.set(data, forKey: "usertimeline_tweets")
+                UserDefaults.standard.synchronize()
+                
+                let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
+                    Tweet(dictionary: dictionary)
+                })
+                completion(tweets, nil)
+                
+        }
+    }
+
+    
     // MARK: TODO: Favorite a Tweet
     func favorite(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
         let urlString = "https://api.twitter.com/1.1/favorites/create.json"
