@@ -11,9 +11,11 @@ import UIKit
 class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var tweets: [Tweet] = []
+    var refreshControl: UIRefreshControl!
     
     @IBOutlet weak var tableView: UITableView!
-    
+
+    @IBOutlet weak var favoriteCount: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,6 +33,12 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
                 print("Error getting home timeline: " + error.localizedDescription)
             }
         }
+        
+        
+        // Initialize a UIRefreshControl
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
+        tableView.insertSubview(refreshControl, at: 0)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -43,7 +51,6 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         cell.tweet = tweets[indexPath.row]
         
         
-        
         return cell
     }
     
@@ -51,25 +58,58 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+//    func did(post: Tweet) {
+//        self.tweets.insert(post, at: 0)
+//        tableView.reloadData()
+//        
+//    }
+    
+    // pull-to-refresh
+    func refreshControlAction(_ refreshControl: UIRefreshControl) {
+        
+        APIManager.shared.getHomeTimeLine { (tweets, error) in
+            if let tweets = tweets {
+                self.tweets = tweets
+                self.tableView.reloadData()
+            } else if let error = error {
+                print("Error getting home timeline: " + error.localizedDescription)
+            }
+        }
+        
+        // Reload the tableView now that there is new data
+        tableView.reloadData()
+        
+        // Tell the refreshControl to stop spinning
+        refreshControl.endRefreshing()
+        
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+
     
     @IBAction func didTapLogout(_ sender: Any) {
         APIManager.shared.logout()
     }
     
     
-    /*
+    
      // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
+//     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//     // Get the new view controller using segue.destinationViewController.
+//     // Pass the selected object to the new view controller.
+//       let composeViewController = segue.destination as! ComposeViewController
+//        composeViewController.delegate = self
+//    }
+//
+//     }
 }
+
+    
+    
