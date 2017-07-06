@@ -50,8 +50,21 @@ class TweetCell: UITableViewCell {
                     print("Successfully favorited the following Tweet: \n\(tweet.text)")
                 }
             }
+            refreshData()
+        } else {
+            tweet.favorited = false
+            tweet.favoriteCount = tweet.favoriteCount! - 1
+            favoriteButton.setImage(UIImage(named: "favor-icon.png"), for: .normal)
+            
+            APIManager.shared.unfavorite(tweet) { (tweet: Tweet?, error: Error?) in
+                if let  error = error {
+                    print("Error unfavoriting tweet: \(error.localizedDescription)")
+                } else if let tweet = tweet {
+                    print("Successfully unfavorited the following Tweet: \n\(tweet.text)")
+                }
+            }
+            refreshData()
         }
-        refreshData()
     }
     
     // refreshData method to repopulate the cell information
@@ -82,8 +95,22 @@ class TweetCell: UITableViewCell {
                     print("Successfully retweeted the following Tweet: \n\(tweet.text)")
                 }
             }
+            refreshData()
+        } else {
+            tweet.retweeted = false
+            tweet.retweetCount = tweet.retweetCount - 1
+            retweetButton.setImage(UIImage(named: "retweet-icon.png"), for: .normal)
+            
+            APIManager.shared.unretweet(tweet) { (tweet: Tweet?, error: Error?) in
+                if let  error = error {
+                    print("Error unretweeting tweet: \(error.localizedDescription)")
+                } else if let tweet = tweet {
+                    print("Successfully unretweeted the following Tweet: \n\(tweet.text)")
+                }
+            }
+            refreshData()
+            
         }
-        refreshData()
     }
     
     override func awakeFromNib() {
