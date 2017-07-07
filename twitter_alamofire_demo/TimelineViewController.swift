@@ -26,7 +26,6 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.estimatedRowHeight = 100
         
         
-        
         APIManager.shared.getHomeTimeLine { (tweets, error) in
             if let tweets = tweets {
                 self.tweets = tweets
@@ -109,7 +108,10 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
                 let tweet = tweets[indexPath.row]
                 detailViewController.tweet = tweet
             }
-            
+            //        } else if segue.identifier == "ProfileViewController" {
+            //            let cell = sender as! UITableViewCell
+            //
+            //        }
         }
     }
 }

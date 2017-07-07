@@ -7,14 +7,20 @@
 //
 
 import UIKit
+import AlamofireImage
 
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var bannerImage: UIImageView!
+    
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var screenNameLabel: UILabel!
     @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var bioLabel: UILabel!
+    @IBOutlet weak var followingLabel: UILabel!
+    @IBOutlet weak var followersLabel: UILabel!
+    
     
     var tweets: [Tweet] = []
     
@@ -36,7 +42,25 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 print("Error getting current user timeline: " + error.localizedDescription)
             }
         }
+        
+        // Setting the Profile Image
+        self.profileImage.layer.cornerRadius = (self.profileImage.frame.size.width / 2)
+        self.profileImage.layer.masksToBounds = true
+        profileImage.af_setImage(withURL: (User.current?.biggerProfileImageURL!)!)
+       
+        
+        // Setting the Banner Image
+        bannerImage.af_setImage(withURL: (User.current?.bannerImageURL!)!)
 
+        // Setting the Bio Section
+        bioLabel.text = User.current?.bio
+        
+        let followingCount = User.current?.followingCount!
+        let followersCount = User.current?.followersCount!
+        
+        followingLabel.text = String(describing: followingCount!)
+        followersLabel.text = String(describing: followersCount!)
+        
         // Do any additional setup after loading the view.
     }
 

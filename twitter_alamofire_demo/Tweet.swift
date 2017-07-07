@@ -29,6 +29,7 @@ class Tweet {
         retweetCount = dictionary["retweet_count"] as! Int
         retweeted = dictionary["retweeted"] as! Bool
         
+        
         // setting the user
         let user = dictionary["user"] as! [String: Any]
         self.user = User(dictionary: user)

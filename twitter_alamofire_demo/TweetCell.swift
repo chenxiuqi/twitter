@@ -32,7 +32,7 @@ class TweetCell: UITableViewCell {
             
             self.userImage.layer.cornerRadius = (self.userImage.frame.size.width / 2)
             self.userImage.layer.masksToBounds = true
-            userImage.af_setImage(withURL: tweet.user.profileImageURL!)
+            userImage.af_setImage(withURL: tweet.user.biggerProfileImageURL!)
         }
     }
     
@@ -41,7 +41,7 @@ class TweetCell: UITableViewCell {
         if tweet.favorited == false {
             tweet.favorited = true
             tweet.favoriteCount = tweet.favoriteCount! + 1
-            favoriteButton.setImage(UIImage(named: "favor-icon-red.png"), for: .normal)
+        
             
             APIManager.shared.favorite(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
@@ -50,11 +50,11 @@ class TweetCell: UITableViewCell {
                     print("Successfully favorited the following Tweet: \n\(tweet.text)")
                 }
             }
-            refreshData()
+            
         } else {
             tweet.favorited = false
             tweet.favoriteCount = tweet.favoriteCount! - 1
-            favoriteButton.setImage(UIImage(named: "favor-icon.png"), for: .normal)
+
             
             APIManager.shared.unfavorite(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
@@ -63,8 +63,9 @@ class TweetCell: UITableViewCell {
                     print("Successfully unfavorited the following Tweet: \n\(tweet.text)")
                 }
             }
-            refreshData()
+            
         }
+        refreshData()
     }
     
     // refreshData method to repopulate the cell information
@@ -72,12 +73,16 @@ class TweetCell: UITableViewCell {
         // Favorite count
         if tweet.favorited == true {
             favoriteButton.setImage(UIImage(named: "favor-icon-red.png"), for: .normal)
+        } else {
+            favoriteButton.setImage(UIImage(named: "favor-icon.png"), for: .normal)
         }
         favoriteCount.text = String(describing: tweet.favoriteCount!)
         
         // Retweet count
         if tweet.retweeted == true {
             retweetButton.setImage(UIImage(named: "retweet-icon-green.png"), for: .normal)
+        } else {
+            retweetButton.setImage(UIImage(named: "retweet-icon.png"), for: .normal)
         }
         retweetCount.text = String(describing: tweet.retweetCount)
     }
@@ -99,7 +104,7 @@ class TweetCell: UITableViewCell {
         } else {
             tweet.retweeted = false
             tweet.retweetCount = tweet.retweetCount - 1
-            retweetButton.setImage(UIImage(named: "retweet-icon.png"), for: .normal)
+//            retweetButton.setImage(UIImage(named: "retweet-icon.png"), for: .normal)
             
             APIManager.shared.unretweet(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {

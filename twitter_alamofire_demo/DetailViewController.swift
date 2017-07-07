@@ -30,7 +30,7 @@ class DetailViewController: UIViewController {
             
             self.userImage.layer.cornerRadius = (self.userImage.frame.size.width / 2)
             self.userImage.layer.masksToBounds = true
-            userImage.af_setImage(withURL: tweet.user.profileImageURL!)
+            userImage.af_setImage(withURL: tweet.user.biggerProfileImageURL!)
 
             
             

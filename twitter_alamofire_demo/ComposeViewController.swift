@@ -46,7 +46,7 @@ class ComposeViewController: UIViewController, UIPageViewControllerDelegate {
         
         self.userImage.layer.cornerRadius = (self.userImage.frame.size.width / 2)
         self.userImage.layer.masksToBounds = true
-        userImage.af_setImage(withURL: (User.current?.profileImageURL!)!)
+        userImage.af_setImage(withURL: (User.current?.biggerProfileImageURL!)!)
         
         
         // Do any additional setup after loading the view.
