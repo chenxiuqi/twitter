@@ -58,7 +58,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         // Setting the Bio Section
         screenNameLabel.text = user?.name
-        userNameLabel.text = user?.screenName
+        userNameLabel.text = "@" + (user?.screenName)!
         bioLabel.text = user?.bio
         
         let followingCount = user?.followingCount!
