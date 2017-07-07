@@ -9,6 +9,12 @@
 import UIKit
 import AlamofireImage
 
+
+protocol TweetCellDelegate: class {
+    // Add required methods the delegate needs to implement
+    func tweetCell(_ tweetCell: TweetCell, didTap user: User)
+}
+
 class TweetCell: UITableViewCell {
     
     @IBOutlet weak var tweetTextLabel: UILabel!
@@ -20,6 +26,9 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var retweetCount: UILabel!
     @IBOutlet weak var retweetButton: UIButton!
+    weak var delegate: TweetCellDelegate?
+    
+    
     
     var tweet: Tweet! {
         didSet {
@@ -33,6 +42,8 @@ class TweetCell: UITableViewCell {
             self.userImage.layer.cornerRadius = (self.userImage.frame.size.width / 2)
             self.userImage.layer.masksToBounds = true
             userImage.af_setImage(withURL: tweet.user.biggerProfileImageURL!)
+            
+            
         }
     }
     
@@ -41,7 +52,6 @@ class TweetCell: UITableViewCell {
         if tweet.favorited == false {
             tweet.favorited = true
             tweet.favoriteCount = tweet.favoriteCount! + 1
-        
             
             APIManager.shared.favorite(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
@@ -50,11 +60,10 @@ class TweetCell: UITableViewCell {
                     print("Successfully favorited the following Tweet: \n\(tweet.text)")
                 }
             }
-            
         } else {
             tweet.favorited = false
             tweet.favoriteCount = tweet.favoriteCount! - 1
-
+            
             
             APIManager.shared.unfavorite(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
@@ -100,11 +109,9 @@ class TweetCell: UITableViewCell {
                     print("Successfully retweeted the following Tweet: \n\(tweet.text)")
                 }
             }
-            refreshData()
         } else {
             tweet.retweeted = false
             tweet.retweetCount = tweet.retweetCount - 1
-//            retweetButton.setImage(UIImage(named: "retweet-icon.png"), for: .normal)
             
             APIManager.shared.unretweet(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
@@ -113,14 +120,28 @@ class TweetCell: UITableViewCell {
                     print("Successfully unretweeted the following Tweet: \n\(tweet.text)")
                 }
             }
-            refreshData()
+            
             
         }
+        refreshData()
     }
+    
+    
+    // Tap on profile image loads user's ProfileViewController
+    func didTapUserProfile(_ sender: UITapGestureRecognizer) {
+        // TODO: Call method on delegate
+        delegate?.tweetCell(self, didTap: tweet.user)
+       
+    }
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        let profileTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.didTapUserProfile(_:)))
+        userImage.addGestureRecognizer(profileTapGestureRecognizer)
+        userImage.isUserInteractionEnabled = true
+
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

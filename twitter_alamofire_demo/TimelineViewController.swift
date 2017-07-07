@@ -8,10 +8,11 @@
 
 import UIKit
 
-class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TimelineViewController: UIViewController, TweetCellDelegate, UITableViewDelegate, UITableViewDataSource {
     
     var tweets: [Tweet] = []
     var refreshControl: UIRefreshControl!
+    
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -40,6 +41,8 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
+        
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -47,9 +50,12 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetCell
         
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetCell
+        cell.delegate = self
         cell.tweet = tweets[indexPath.row]
+        
+        
         
         
         return cell
@@ -81,10 +87,19 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     
+    
+    func tweetCell(_ tweetCell: TweetCell, didTap user: User) {
+        // TODO: Perform segue to profile view controller
+        self.performSegue(withIdentifier: "ProfileViewController", sender: user)
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
     
     
     
@@ -101,20 +116,21 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         if segue.identifier == "DetailViewController" {
             let cell = sender as! UITableViewCell
             if let indexPath = tableView.indexPath(for: cell) {
-                
-                //            let destinationNavigationController = segue.destination as! UINavigationController
-                //            let detailViewController = destinationNavigationController.topViewController as! DetailViewController
                 let detailViewController = segue.destination as! DetailViewController
                 let tweet = tweets[indexPath.row]
                 detailViewController.tweet = tweet
             }
-            //        } else if segue.identifier == "ProfileViewController" {
-            //            let cell = sender as! UITableViewCell
-            //
-            //        }
+        } else if segue.identifier == "ProfileViewController" {
+            let user = sender as! User?
+            let profileViewController = segue.destination as! ProfileViewController
+            profileViewController.user = user
+            profileViewController.fromTimeline = true
         }
+        
     }
 }
+
+
 
 
 

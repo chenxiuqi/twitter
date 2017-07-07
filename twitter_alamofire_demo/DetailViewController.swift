@@ -12,7 +12,7 @@ import AlamofireImage
 class DetailViewController: UIViewController {
     
     var tweet: Tweet?
-
+    
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var screeNameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -26,40 +26,44 @@ class DetailViewController: UIViewController {
             tweetLabel.text = tweet.text
             screeNameLabel.text = tweet.user.name
             usernameLabel.text = "@" + tweet.user.screenName!
+            print(tweet.id)
             timestampLabel.text = tweet.createdAtString
             
             self.userImage.layer.cornerRadius = (self.userImage.frame.size.width / 2)
             self.userImage.layer.masksToBounds = true
             userImage.af_setImage(withURL: tweet.user.biggerProfileImageURL!)
-
             
             
             
             
-//            tweetTextLabel.text = tweet.text
-//            userNameLabel.text = "@" + tweet.user.screenName!
-//            screenNameLabel.text = tweet.user.name
-//            timeStampLabel.text = tweet.createdAtString
+            
+            //            tweetTextLabel.text = tweet.text
+            //            userNameLabel.text = "@" + tweet.user.screenName!
+            //            screenNameLabel.text = tweet.user.name
+            //            timeStampLabel.text = tweet.createdAtString
         }
         
-
+        
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func onCancel(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
     }
-    */
-
+    
+    /*
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
