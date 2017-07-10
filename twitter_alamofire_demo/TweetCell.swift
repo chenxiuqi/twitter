@@ -26,8 +26,8 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var retweetCount: UILabel!
     @IBOutlet weak var retweetButton: UIButton!
+    @IBOutlet weak var mediaImage: UIImageView!
     weak var delegate: TweetCellDelegate?
-    
     
     
     var tweet: Tweet! {
@@ -36,6 +36,18 @@ class TweetCell: UITableViewCell {
             userNameLabel.text = "@" + tweet.user.screenName!
             screenNameLabel.text = tweet.user.name
             timeStampLabel.text = tweet.createdAtString
+            
+            //print(tweet.entities["media"])
+            
+            // checking for a photo type in dictionary
+            let media = tweet.entities["media"] as? [[String: Any]]
+            let mediaURLString = media?[0]["media_url_https"] as? String
+            
+            // check if media is nil
+            if mediaURLString != nil {
+                let mediaURL = URL(string: mediaURLString!)
+                mediaImage.af_setImage(withURL: mediaURL!)
+            }
             
             refreshData()
             
