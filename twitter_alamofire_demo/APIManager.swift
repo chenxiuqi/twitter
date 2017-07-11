@@ -39,7 +39,7 @@ class APIManager: SessionManager {
                 if let error = error {
                     failure(error)
                 } else if let user = user {
-                    print("Welcome \(user.name)")
+                    print("Welcome \(String(describing: user.name))")
                     
                     // MARK: TODO: set User.current, so that it's persisted
                     User.current = user
@@ -58,7 +58,7 @@ class APIManager: SessionManager {
         
         // Deauthorize OAuth tokens
         clearCredentials()
-    
+        
         // Post logout notification
         NotificationCenter.default.post(name: NSNotification.Name("didLogout"), object: nil)
     }
@@ -81,19 +81,19 @@ class APIManager: SessionManager {
                 completion(User(dictionary: userDictionary), nil)
         }
     }
-        
+    
     func getHomeTimeLine(completion: @escaping ([Tweet]?, Error?) -> ()) {
-
+        
         // This uses tweets from disk to avoid hitting rate limit. Comment out if you want fresh
         // tweets,
-//        if let data = UserDefaults.standard.object(forKey: "hometimeline_tweets") as? Data {
-//            let tweetDictionaries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[String: Any]]
-//            let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
-//                Tweet(dictionary: dictionary)
-//            })
-//            completion(tweets, nil)
-//            return
-//        }
+        //        if let data = UserDefaults.standard.object(forKey: "hometimeline_tweets") as? Data {
+        //            let tweetDictionaries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[String: Any]]
+        //            let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
+        //                Tweet(dictionary: dictionary)
+        //            })
+        //            completion(tweets, nil)
+        //            return
+        //        }
         
         
         request(URL(string: "https://api.twitter.com/1.1/statuses/home_timeline.json")!, method: .get)
@@ -164,7 +164,35 @@ class APIManager: SessionManager {
                 
         }
     }
-
+    
+    // Following List
+    //    func getFollowingList(with id: String, completion: @escaping ([String: Any]?, Error?) -> ()) {
+    //        let urlString = "https://api.twitter.com/1.1/friends/list.jsoncursor=-1&screen_name=" + id
+    //        request(URL(string: urlString)!, method: .get)
+    //            .validate().responseJSON { (response) in
+    //            if response.result.isSuccess,
+    //                let followingDictionary = response.result.value as? [String: Any] {
+    ////                let tweet = Tweet(dictionary: tweetDictionary)
+    //                print(followingDictionary)
+    //                completion(followingDictionary, nil)
+    //            } else {
+    //                completion(nil, response.result.error)
+    //            }
+    //        }
+    //    }
+    
+    func getFollowingList(with id: String, completion: @escaping ([String: Any]?, Error?) -> ()) {
+        let urlString = "https://api.twitter.com/1.1/friends/list.json"
+        let parameters = ["screen_name": id]
+        request(urlString, method: .get, parameters: parameters, encoding: URLEncoding.queryString).validate().responseJSON { (response) in
+            if response.result.isSuccess,
+                let followingDictionary = response.result.value as? [String: Any] {
+                completion(followingDictionary, nil)
+            } else {
+                completion(nil, response.result.error)
+            }
+        }
+    }
     
     // MARK: TODO: Favorite a Tweet
     func favorite(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {

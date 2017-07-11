@@ -20,6 +20,7 @@ class Tweet {
     var user: User // Contains name, screenname, etc. of tweet author
     var createdAtString: String // Display date
     var entities: [String: Any] // Display entities
+    var mediaURL: URL? // Displays the image content of tweet
     
     
     // MARK: - Create initializer with dictionary
@@ -48,6 +49,18 @@ class Tweet {
         formatter.timeStyle = .none
         // Convert Date to String
         createdAtString = formatter.string(from: date)
+        
+        let media = entities["media"] as? [[String: Any]]
+        let mediaURLString = media?[0]["media_url_https"] as? String
+//        mediaURL = URL(string: mediaURLString!)!
+        // check if media is nil
+       
+        if mediaURLString != nil {
+            mediaURL = URL(string: mediaURLString!)!
+//            mediaImage.af_setImage(withURL: mediaURL!)
+        } else {
+            mediaURL = nil
+        }
         
         
     }

@@ -18,6 +18,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var tweetLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
+    @IBOutlet weak var mediaImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,21 +27,22 @@ class DetailViewController: UIViewController {
             tweetLabel.text = tweet.text
             screeNameLabel.text = tweet.user.name
             usernameLabel.text = "@" + tweet.user.screenName!
-            print(tweet.id)
             timestampLabel.text = tweet.createdAtString
             
             self.userImage.layer.cornerRadius = (self.userImage.frame.size.width / 2)
             self.userImage.layer.masksToBounds = true
             userImage.af_setImage(withURL: tweet.user.biggerProfileImageURL!)
             
+            if tweet.mediaURL != nil {
+                mediaImage.layer.cornerRadius = 8.0
+                mediaImage.clipsToBounds = true
+                mediaImage.af_setImage(withURL: tweet.mediaURL!)
+                print("here")
+            }
             
             
             
-            
-            //            tweetTextLabel.text = tweet.text
-            //            userNameLabel.text = "@" + tweet.user.screenName!
-            //            screenNameLabel.text = tweet.user.name
-            //            timeStampLabel.text = tweet.createdAtString
+
         }
         
         

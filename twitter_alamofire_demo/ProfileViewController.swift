@@ -67,7 +67,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         followingLabel.text = String(describing: followingCount!)
         followersLabel.text = String(describing: followersCount!)
         
-        // Do any additional setup after loading the view.
     }
     
     override func didReceiveMemoryWarning() {
@@ -98,11 +97,17 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let cell = sender as! UITableViewCell
-        if let indexPath = tableView.indexPath(for: cell) {
-            let detailViewController = segue.destination as! DetailViewController
-            let tweet = tweets[indexPath.row]
-            detailViewController.tweet = tweet
+        if segue.identifier == "DetailViewController" {
+            let cell = sender as! UITableViewCell
+            if let indexPath = tableView.indexPath(for: cell) {
+                let detailViewController = segue.destination as! DetailViewController
+                let tweet = tweets[indexPath.row]
+                detailViewController.tweet = tweet
+            } else if segue.identifier == "FollowingViewController" {
+                let user = sender as! User?
+                let profileViewController = segue.destination as! ProfileViewController
+                profileViewController.user = user
+            }
         }
         
     }

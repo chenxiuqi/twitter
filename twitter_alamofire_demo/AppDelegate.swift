@@ -40,6 +40,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = loginVC
         }
         
+        // Return to Profile View Controller
+        // Cancel Tweet Compose
+        NotificationCenter.default.addObserver(forName: Notification.Name("didReturn"), object: nil, queue: OperationQueue.main) { (Notification) in
+            print("Return to Profile View Controller notification received")
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let loginVC = storyboard.instantiateViewController(withIdentifier: "profileViewController")
+            self.window?.rootViewController = loginVC
+        }
+        
         
         return true
     }

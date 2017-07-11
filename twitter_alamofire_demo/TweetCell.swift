@@ -40,15 +40,18 @@ class TweetCell: UITableViewCell {
             //print(tweet.entities["media"])
             
             // checking for a photo type in dictionary
-            let media = tweet.entities["media"] as? [[String: Any]]
-            let mediaURLString = media?[0]["media_url_https"] as? String
+            //            let media = tweet.entities["media"] as? [[String: Any]]
+            //            let mediaURLString = media?[0]["media_url_https"] as? String
+            //
+            //            // check if media is nil
+            //            if mediaURLString != nil {
+            //                let mediaURL = URL(string: mediaURLString!)
+            //                mediaImage.af_setImage(withURL: mediaURL!)
+            //            }
             
-            // check if media is nil
-            if mediaURLString != nil {
-                let mediaURL = URL(string: mediaURLString!)
-                mediaImage.af_setImage(withURL: mediaURL!)
-            }
-            
+//            if tweet.mediaURL != nil {
+//                mediaImage.af_setImage(withURL: tweet.mediaURL!)
+//            }
             refreshData()
             
             self.userImage.layer.cornerRadius = (self.userImage.frame.size.width / 2)
@@ -143,7 +146,7 @@ class TweetCell: UITableViewCell {
     func didTapUserProfile(_ sender: UITapGestureRecognizer) {
         // TODO: Call method on delegate
         delegate?.tweetCell(self, didTap: tweet.user)
-       
+        
     }
     
     
@@ -153,7 +156,7 @@ class TweetCell: UITableViewCell {
         let profileTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.didTapUserProfile(_:)))
         userImage.addGestureRecognizer(profileTapGestureRecognizer)
         userImage.isUserInteractionEnabled = true
-
+        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
