@@ -105,8 +105,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 detailViewController.tweet = tweet
             } else if segue.identifier == "FollowingViewController" {
                 let user = sender as! User?
-                let profileViewController = segue.destination as! ProfileViewController
-                profileViewController.user = user
+                let followingViewController = segue.destination as! FollowingViewController
+                followingViewController.user = user
+            } else if segue.identifier == "FollowersViewController" {
+                let user = sender as! User?
+                let followersViewController = segue.destination as! FollowersViewController
+                followersViewController.user = user
             }
         }
         

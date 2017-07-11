@@ -181,6 +181,7 @@ class APIManager: SessionManager {
     //        }
     //    }
     
+    // GET: Following List
     func getFollowingList(with id: String, completion: @escaping ([String: Any]?, Error?) -> ()) {
         let urlString = "https://api.twitter.com/1.1/friends/list.json"
         let parameters = ["screen_name": id]
@@ -193,6 +194,36 @@ class APIManager: SessionManager {
             }
         }
     }
+    
+    // GET: Followers List
+    func getFollowersList(with id: String, completion: @escaping ([String: Any]?, Error?) -> ()) {
+        let urlString = "https://api.twitter.com/1.1/followers/list.json"
+        let parameters = ["screen_name": id]
+        request(urlString, method: .get, parameters: parameters, encoding: URLEncoding.queryString).validate().responseJSON { (response) in
+            if response.result.isSuccess,
+                let followersDictionary = response.result.value as? [String: Any] {
+                completion(followersDictionary, nil)
+            } else {
+                completion(nil, response.result.error)
+            }
+        }
+    }
+    
+    // GET: Messages
+    func getMessages(completion: @escaping ([String: Any]?, Error?) -> ()) {
+        let urlString = "https://api.twitter.com/1.1/direct_messages.json"
+//        let parameters = ["screen_name": id]
+        request(urlString, method: .get, encoding: URLEncoding.queryString).validate().responseJSON { (response) in
+            if response.result.isSuccess,
+                let messagesDictionary = response.result.value as? [String: Any] {
+                print(messagesDictionary)
+                completion(messagesDictionary, nil)
+            } else {
+                completion(nil, response.result.error)
+            }
+        }
+    }
+    
     
     // MARK: TODO: Favorite a Tweet
     func favorite(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {

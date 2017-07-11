@@ -10,6 +10,10 @@
 		4614F4412C85604701FF60FC /* Pods_twitter_alamofire_demoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0088F4C1C9AE806F5A8D75AE /* Pods_twitter_alamofire_demoTests.framework */; };
 		7C08CB261F1417780036BCAD /* FollowingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C08CB251F1417780036BCAD /* FollowingViewController.swift */; };
 		7C08CB2C1F1419AA0036BCAD /* FollowingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C08CB2B1F1419AA0036BCAD /* FollowingCollectionViewCell.swift */; };
+		7C08CB2E1F1499990036BCAD /* FollowersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C08CB2D1F1499990036BCAD /* FollowersViewController.swift */; };
+		7C08CB301F149AA40036BCAD /* FollowersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C08CB2F1F149AA40036BCAD /* FollowersCollectionViewCell.swift */; };
+		7C08CB321F14A9900036BCAD /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C08CB311F14A9900036BCAD /* MessagesViewController.swift */; };
+		7C08CB361F14A9D40036BCAD /* MessagesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C08CB351F14A9D40036BCAD /* MessagesTableViewCell.swift */; };
 		7C14878E1F0EB1C500BE0A48 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C14878D1F0EB1C500BE0A48 /* DetailViewController.swift */; };
 		7C1487901F0EDB0F00BE0A48 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C14878F1F0EDB0F00BE0A48 /* ProfileViewController.swift */; };
 		7CACF0221F0D5F450096E667 /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CACF0211F0D5F450096E667 /* ComposeViewController.swift */; };
@@ -54,6 +58,10 @@
 		7B9A4634FCD99869247324E7 /* Pods_twitter_alamofire_demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_twitter_alamofire_demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C08CB251F1417780036BCAD /* FollowingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowingViewController.swift; sourceTree = "<group>"; };
 		7C08CB2B1F1419AA0036BCAD /* FollowingCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FollowingCollectionViewCell.swift; path = ../FollowingCollectionViewCell.swift; sourceTree = "<group>"; };
+		7C08CB2D1F1499990036BCAD /* FollowersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowersViewController.swift; sourceTree = "<group>"; };
+		7C08CB2F1F149AA40036BCAD /* FollowersCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowersCollectionViewCell.swift; sourceTree = "<group>"; };
+		7C08CB311F14A9900036BCAD /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
+		7C08CB351F14A9D40036BCAD /* MessagesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagesTableViewCell.swift; path = ../MessagesTableViewCell.swift; sourceTree = "<group>"; };
 		7C14878D1F0EB1C500BE0A48 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7C14878F1F0EDB0F00BE0A48 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7CACF0211F0D5F450096E667 /* ComposeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeViewController.swift; sourceTree = "<group>"; };
@@ -204,7 +212,9 @@
 			children = (
 				7CACF0211F0D5F450096E667 /* ComposeViewController.swift */,
 				7C14878D1F0EB1C500BE0A48 /* DetailViewController.swift */,
+				7C08CB2D1F1499990036BCAD /* FollowersViewController.swift */,
 				7C08CB251F1417780036BCAD /* FollowingViewController.swift */,
+				7C08CB311F14A9900036BCAD /* MessagesViewController.swift */,
 				ED1D234B1EF6E42900C51ACC /* TimelineViewController.swift */,
 				ED1AFD601E94496E00FD4B90 /* LoginViewController.swift */,
 				7C14878F1F0EDB0F00BE0A48 /* ProfileViewController.swift */,
@@ -215,7 +225,9 @@
 		ED1D234F1EF71C5100C51ACC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7C08CB2F1F149AA40036BCAD /* FollowersCollectionViewCell.swift */,
 				7C08CB2B1F1419AA0036BCAD /* FollowingCollectionViewCell.swift */,
+				7C08CB351F14A9D40036BCAD /* MessagesTableViewCell.swift */,
 				ED1D234D1EF71C4B00C51ACC /* TweetCell.swift */,
 			);
 			name = Views;
@@ -518,6 +530,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C08CB321F14A9900036BCAD /* MessagesViewController.swift in Sources */,
+				7C08CB361F14A9D40036BCAD /* MessagesTableViewCell.swift in Sources */,
 				7C08CB2C1F1419AA0036BCAD /* FollowingCollectionViewCell.swift in Sources */,
 				7C14878E1F0EB1C500BE0A48 /* DetailViewController.swift in Sources */,
 				ED1D23461EF63C1D00C51ACC /* User.swift in Sources */,
@@ -528,7 +542,9 @@
 				7CACF0221F0D5F450096E667 /* ComposeViewController.swift in Sources */,
 				ED1AFD611E94496E00FD4B90 /* LoginViewController.swift in Sources */,
 				ED1AFD5F1E94421000FD4B90 /* APIManager.swift in Sources */,
+				7C08CB2E1F1499990036BCAD /* FollowersViewController.swift in Sources */,
 				ED1AFD311E942B2500FD4B90 /* AppDelegate.swift in Sources */,
+				7C08CB301F149AA40036BCAD /* FollowersCollectionViewCell.swift in Sources */,
 				ED1D234C1EF6E42900C51ACC /* TimelineViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
